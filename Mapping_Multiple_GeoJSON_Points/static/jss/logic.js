@@ -14,24 +14,25 @@ streets.addTo(map);
 let airportData = "https://raw.githubusercontent.com/JaimeStarling/Mapping_Earthquakes/main/majorAirports.json";
 
 // Grabbing our GeoJSON data.
+//d3.json(airportData).then(function(data) {
+  //  console.log(data);
+  // Creating a GeoJSON layer with the retrieved data.
+ // L.geoJSON(data,{
+  //  pointToLayer: function(feature, latlng){
+    // console.log(feature);
+    // return L.marker(latlng).bindPopup(`<h2>Airport code: ${feature.properties.faa}</h2> <h3>Airport name: ${feature.properties.name}</h3>`);
+//}).addTo(map);
+
+
+// ONEACHFEATURE WORKED OVER POINTTOLAYER!!!
 d3.json(airportData).then(function(data) {
     console.log(data);
   // Creating a GeoJSON layer with the retrieved data.
-  L.geoJSON(data).addTo(map);
-        pointToLayer(feature, latlng)
-        console.log(feature);
-        return L.marker(latlng)
-            .bindPopup(`<h2>Airport code: ${feature.properties.faa}</h2> <h3>Airport name: ${feature.properties.name}</h3>`);        
+  L.geoJson(data, {
+        onEachFeature: function(feature, layer) {
+            console.log(layer);
+            layer.bindPopup("<h3> Airport code: " + feature.properties.faa + "</h3> <hr><h3> Airport name: "
+                 + feature.properties.name + "</h3>");
+        }
+    }).addTo(map);
 });
-
-
-// Grabbing our GeoJSON data.
-//L.geoJson(sanFranAirport, {
-    // We turn each feature into a Marker on the map.
-  //  pointToLayer(feature, latlng) {
-    //  console.log(feature);
-      //return L.marker(latlng)
-        //.bindPopup(`<h2>Airport code: ${feature.properties.faa}</h2> <h3>Airport name: ${feature.properties.name}</h3>`);
-   // },
-  
- // }).addTo(map);
